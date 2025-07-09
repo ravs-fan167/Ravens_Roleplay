@@ -58,7 +58,9 @@
             <td class="p-2 border">${data.alasan}</td>
             <td class="p-2 border">${data.waktu}</td>
             <td class="p-2 border">
-              <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border">
+            <a href="${data.statImage}" target="_blank">
+              <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition">
+             </a>
             </td>
           </tr>
         `;
