@@ -24,8 +24,24 @@
         <input type="tel" id="whatsapp" required class="w-full border px-3 py-2 rounded" placeholder="08xxxxxxxxxx">
       </div>
       <div>
+        <label class="block font-semibold">Nama IC</label>
+        <input type="text" id="namaIC" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Revan_Costello">
+      </div>
+      <div>
+        <label class="block font-semibold">Umur IC</label>
+        <input type="number" id="umurIC" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: 21">
+      </div>
+      <div>
+        <label class="block font-semibold">Nama Event</label>
+        <input type="text" id="eventName" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Balap Motor">
+      </div>
+      <div>
         <label class="block font-semibold">Alasan Mengikuti Event</label>
         <textarea id="alasan" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Ingin ikut kompetisi balap motor."></textarea>
+      </div>
+      <div>
+        <label class="block font-semibold">Upload Foto Stats IC</label>
+        <input type="file" id="statImage" accept="image/*" required class="w-full border px-3 py-2 rounded bg-white">
       </div>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Daftar Sekarang</button>
     </form>
@@ -38,26 +54,42 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
       const nama = document.getElementById("nama").value.trim();
       const idplayer = document.getElementById("idplayer").value.trim();
       const whatsapp = document.getElementById("whatsapp").value.trim();
+      const namaIC = document.getElementById("namaIC").value.trim();
+      const umurIC = document.getElementById("umurIC").value.trim();
+      const eventName = document.getElementById("eventName").value.trim();
       const alasan = document.getElementById("alasan").value.trim();
+      const statImageInput = document.getElementById("statImage");
 
-      const data = {
-        nama, idplayer, whatsapp, alasan,
-        waktu: new Date().toLocaleString()
+      if (statImageInput.files.length === 0) {
+        alert("Mohon upload foto stats IC terlebih dahulu.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const imageData = reader.result;
+
+        const data = {
+          nama, idplayer, whatsapp, namaIC, umurIC, eventName, alasan, statImage: imageData,
+          waktu: new Date().toLocaleString()
+        };
+
+        const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+        pendaftaran.push(data);
+        localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
+
+        hasil.innerHTML = `
+          <strong>Pendaftaran Berhasil!</strong><br>
+          Terima kasih, <b>${nama}</b>. Data kamu telah kami simpan.
+        `;
+        hasil.classList.remove("hidden");
+        form.reset();
       };
-
-      const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
-      pendaftaran.push(data);
-      localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
-
-      hasil.innerHTML = `
-        <strong>Pendaftaran Berhasil!</strong><br>
-        Terima kasih, <b>${nama}</b>. Kami akan menghubungi kamu lewat WhatsApp.
-      `;
-      hasil.classList.remove("hidden");
-      form.reset();
+      reader.readAsDataURL(statImageInput.files[0]);
     });
   </script>
 </body>
