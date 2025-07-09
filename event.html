@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendaftaran Event SA-MP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded shadow-md">
+    <h1 class="text-2xl font-bold text-center text-blue-600 mb-4">Pendaftaran Event SA-MP</h1>
+    <form id="eventForm" class="space-y-4">
+      <div>
+        <label class="block font-semibold">Nama Lengkap</label>
+        <input type="text" id="nama" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Revan Pratama">
+      </div>
+      <div>
+        <label class="block font-semibold">ID Player</label>
+        <input type="text" id="idplayer" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: 127">
+      </div>
+      <div>
+        <label class="block font-semibold">Nomor WhatsApp</label>
+        <input type="tel" id="whatsapp" required class="w-full border px-3 py-2 rounded" placeholder="08xxxxxxxxxx">
+      </div>
+      <div>
+        <label class="block font-semibold">Alasan Mengikuti Event</label>
+        <textarea id="alasan" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Ingin ikut kompetisi balap motor."></textarea>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Daftar Sekarang</button>
+    </form>
+    <div id="hasil" class="mt-6 hidden bg-green-100 text-green-800 p-4 rounded"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("eventForm");
+    const hasil = document.getElementById("hasil");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nama = document.getElementById("nama").value.trim();
+      const idplayer = document.getElementById("idplayer").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
+      const alasan = document.getElementById("alasan").value.trim();
+
+      const data = {
+        nama, idplayer, whatsapp, alasan,
+        waktu: new Date().toLocaleString()
+      };
+
+      const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+      pendaftaran.push(data);
+      localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
+
+      hasil.innerHTML = `
+        <strong>Pendaftaran Berhasil!</strong><br>
+        Terima kasih, <b>${nama}</b>. Kami akan menghubungi kamu lewat WhatsApp.
+      `;
+      hasil.classList.remove("hidden");
+      form.reset();
+    });
+  </script>
+</body>
+</html>
