@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pendaftaran Event SA-MP</title>
+  <title>Pendaftaran Event Ravens Roleplay</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -13,11 +13,7 @@
     <form id="eventForm" class="space-y-4">
       <div>
         <label class="block font-semibold">Nama Lengkap</label>
-        <input type="text" id="nama" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Revan Pratama">
-      </div>
-      <div>
-        <label class="block font-semibold">ID Player</label>
-        <input type="text" id="idplayer" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: 127">
+        <input type="text" id="nama" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Brianqaaa">
       </div>
       <div>
         <label class="block font-semibold">Nomor WhatsApp</label>
@@ -56,7 +52,6 @@
       e.preventDefault();
 
       const nama = document.getElementById("nama").value.trim();
-      const idplayer = document.getElementById("idplayer").value.trim();
       const whatsapp = document.getElementById("whatsapp").value.trim();
       const namaIC = document.getElementById("namaIC").value.trim();
       const umurIC = document.getElementById("umurIC").value.trim();
@@ -74,7 +69,7 @@
         const imageData = reader.result;
 
         const data = {
-          nama, idplayer, whatsapp, namaIC, umurIC, eventName, alasan, statImage: imageData,
+          nama, whatsapp, namaIC, umurIC, eventName, alasan, statImage: imageData,
           waktu: new Date().toLocaleString()
         };
 
