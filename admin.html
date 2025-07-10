@@ -17,7 +17,7 @@
 
   <script>
     function tampilkanData() {
-      const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEventRavensRoleplay") || "[]");
+      const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
       const container = document.getElementById("dataPendaftar");
 
       if (pendaftaran.length === 0) {
