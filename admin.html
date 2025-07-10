@@ -32,10 +32,7 @@
                             <th class="p-2 border">Nama IC</th>
                             <th class="p-2 border">Umur IC</th>
                             <th class="p-2 border">Nama Event</th>
-                            <th class="p-2 border">Alasan</th>
                             <th class="p-2 border">Foto Stats</th>
-                            <th class="p-2 border">Waktu Pendaftaran</th>
-                            <th class="p-2 border">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,11 +46,9 @@
                         <td class="p-2 border">${data.namaIC}</td>
                         <td class="p-2 border">${data.umurIC}</td>
                         <td class="p-2 border">${data.eventName}</td>
-                        <td class="p-2 border">${data.alasan}</td>
                         <td class="p-2 border">
                             <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition cursor-pointer" onclick="bukaGambar('${data.statImage}')">
                         </td>
-                        <td class="p-2 border">${data.waktu}</td>
                         <td class="p-2 border">
                             <button class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" onclick="hapusPendaftaran(${index})">Hapus</button>
                         </td>
