@@ -32,6 +32,7 @@
                             <th class="p-2 border">Nama Event</th>
                             <th class="p-2 border">Alasan</th>
                             <th class="p-2 border">Foto Stats</th>
+                            <th class="p-2 border">Waktu Pendaftaran</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@
                         <td class="p-2 border">
                             <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition cursor-pointer" onclick="bukaGambar('${data.statImage}')">
                         </td>
+                        <td class="p-2 border">${data.waktu}</td>
                     </tr>
                 `;
             });
@@ -63,13 +65,7 @@
 
         function hapusDataLama() {
             if (confirm("Yakin ingin menghapus data pendaftaran lama?")) {
-                const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
-                const waktuSekarang = new Date().getTime();
-                const pendaftaranBaru = pendaftaran.filter(data => {
-                    const waktuPendaftaran = new Date(data.waktu).getTime();
-                    return (waktuSekarang - waktuPendaftaran) < 86400000;                     
-                });
-                localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaranBaru));
+                localStorage.removeItem("pendaftaranEvent");
                 tampilkanData();
             }
         }
