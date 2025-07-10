@@ -12,8 +12,11 @@
         <div id="dataPendaftar" class="overflow-x-auto"></div>
     </div>
     <script>
+        console.log("Admin page loaded");
+        const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+        console.log("Pendaftaran:", pendaftaran);
+
         function tampilkanData() {
-            const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
             const container = document.getElementById("dataPendaftar");
             if (pendaftaran.length === 0) {
                 container.innerHTML = "<p class='text-gray-500'>Belum ada pendaftar.</p>";
@@ -68,7 +71,6 @@
 
         function hapusPendaftaran(index) {
             if (confirm("Yakin ingin menghapus pendaftaran ini?")) {
-                const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
                 pendaftaran.splice(index, 1);
                 localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
                 tampilkanData();
@@ -76,7 +78,6 @@
         }
 
         tampilkanData();
-        setInterval(tampilkanData, 1000); // update data setiap 1 detik
     </script>
 </body>
 </html>
