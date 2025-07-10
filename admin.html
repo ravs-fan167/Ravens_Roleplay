@@ -1,82 +1,81 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Data Pendaftar Event Ravens Roleplay</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Pendaftar Event Ravens Roleplay</title>
+    <script src="https:                                
 </head>
 <body class="bg-gray-100 p-6">
-  <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold text-blue-600 mb-4">Data Pendaftar Event Ravens Roleplay</h1>
-    <div id="dataPendaftar" class="overflow-x-auto"></div>
-    <button onclick="hapusSemua()" class="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-      Hapus Semua Data
-    </button>
-  </div>
+    <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
+        <h1 class="text-2xl font-bold text-blue-600 mb-4">Data Pendaftar Event Ravens Roleplay</h1>
+        <div id="dataPendaftar" class="overflow-x-auto"></div>
+        <button onclick="hapusDataLama()" class="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"> Hapus Data Lama </button>
+    </div>
+    <script>
+        function tampilkanData() {
+            const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+            const container = document.getElementById("dataPendaftar");
+            if (pendaftaran.length === 0) {
+                container.innerHTML = "<p class='text-gray-500'>Belum ada pendaftar.</p>";
+                return;
+            }
+            let html = `
+                <table class="min-w-full text-sm text-left border border-gray-300">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="p-2 border">No</th>
+                            <th class="p-2 border">Nama</th>
+                            <th class="p-2 border">WhatsApp</th>
+                            <th class="p-2 border">Nama IC</th>
+                            <th class="p-2 border">Umur IC</th>
+                            <th class="p-2 border">Nama Event</th>
+                            <th class="p-2 border">Alasan</th>
+                            <th class="p-2 border">Foto Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            pendaftaran.forEach((data, index) => {
+                html += `
+                    <tr class="border-t">
+                        <td class="p-2 border">${index + 1}</td>
+                        <td class="p-2 border">${data.nama}</td>
+                        <td class="p-2 border">${data.whatsapp}</td>
+                        <td class="p-2 border">${data.namaIC}</td>
+                        <td class="p-2 border">${data.umurIC}</td>
+                        <td class="p-2 border">${data.eventName}</td>
+                        <td class="p-2 border">${data.alasan}</td>
+                        <td class="p-2 border">
+                            <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition cursor-pointer" onclick="bukaGambar('${data.statImage}')">
+                        </td>
+                    </tr>
+                `;
+            });
+            html += "</tbody></table>";
+            container.innerHTML = html;
+        }
 
-  <script>
-    function tampilkanData() {
-      const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
-      const container = document.getElementById("dataPendaftar");
+        function bukaGambar(base64img) {
+            const win = window.open();
+            win.document.write('<img src="' + base64img + '" style="max-width:100%; height:auto;">');
+        }
 
-      if (pendaftaran.length === 0) {
-        container.innerHTML = "<p class='text-gray-500'>Belum ada pendaftar.</p>";
-        return;
-      }
+        function hapusDataLama() {
+            if (confirm("Yakin ingin menghapus data pendaftaran lama?")) {
+                const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+                const waktuSekarang = new Date().getTime();
+                const pendaftaranBaru = pendaftaran.filter(data => {
+                    const waktuPendaftaran = new Date(data.waktu).getTime();
+                    return (waktuSekarang - waktuPendaftaran) < 86400000;                     
+                });
+                localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaranBaru));
+                tampilkanData();
+            }
+        }
 
-      let html = \`
-        <table class="min-w-full text-sm text-left border border-gray-300">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="p-2 border">No</th>
-              <th class="p-2 border">Nama</th>
-              <th class="p-2 border">WhatsApp</th>
-              <th class="p-2 border">Nama IC</th>
-              <th class="p-2 border">Umur IC</th>
-              <th class="p-2 border">Nama Event</th>
-              <th class="p-2 border">Alasan</th>
-              <th class="p-2 border">Foto Stats</th>
-            </tr>
-          </thead>
-          <tbody>
-      \`;
-
-      pendaftaran.forEach((data, index) => {
-        html += \`
-          <tr class="border-t">
-            <td class="p-2 border">\${index + 1}</td>
-            <td class="p-2 border">\${data.nama}</td>
-            <td class="p-2 border">\${data.whatsapp}</td>
-            <td class="p-2 border">\${data.namaIC}</td>
-            <td class="p-2 border">\${data.umurIC}</td>
-            <td class="p-2 border">\${data.eventName}</td>
-            <td class="p-2 border">\${data.alasan}</td>
-            <td class="p-2 border">
-              <img src="\${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition cursor-pointer"
-                onclick="bukaGambar('\${data.statImage}')">
-            </td>
-          </tr>
-        \`;
-      });
-
-      html += "</tbody></table>";
-      container.innerHTML = html;
-    }
-
-    function bukaGambar(base64img) {
-      const win = window.open();
-      win.document.write('<img src="' + base64img + '" style="max-width:100%; height:auto;">');
-    }
-
-    function hapusSemua() {
-      if (confirm("Yakin ingin menghapus semua data pendaftaran?")) {
-        localStorage.removeItem("pendaftaranEvent");
         tampilkanData();
-      }
-    }
-
-    tampilkanData();
-  </script>
+        setInterval(tampilkanData, 1000); // update data setiap 1 detik
+    </script>
 </body>
 </html>
