@@ -52,10 +52,6 @@
         <input type="text" id="eventName" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Balap Motor">
       </div>
       <div>
-        <label class="block font-semibold">Alasan Mengikuti Event</label>
-        <textarea id="alasan" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Ingin ikut kompetisi balap motor."></textarea>
-      </div>
-      <div>
         <label class="block font-semibold">Upload Foto Stats IC</label>
         <input type="file" id="statImage" accept="image/*" required class="w-full border px-3 py-2 rounded bg-white">
       </div>
@@ -76,7 +72,6 @@
       const namaIC = document.getElementById("namaIC").value.trim();
       const umurIC = document.getElementById("umurIC").value.trim();
       const eventName = document.getElementById("eventName").value.trim();
-      const alasan = document.getElementById("alasan").value.trim();
       const statImageInput = document.getElementById("statImage");
 
       if (statImageInput.files.length === 0) {
@@ -89,7 +84,7 @@
         const imageData = reader.result;
 
         const data = {
-          nama, whatsapp, namaIC, umurIC, eventName, alasan, statImage: imageData,
+          nama, whatsapp, namaIC, umurIC, eventName, statImage: imageData,
           waktu: new Date().toLocaleString()
         };
 
