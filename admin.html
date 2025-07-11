@@ -14,7 +14,7 @@
   </div>
 
   <script>
-    const pendaftaran = JSON.parse(sessionStorage.getItem("pendaftaranEvent") || "[]");
+    const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
 
     function tampilkanData() {
       const container = document.getElementById("dataPendaftar");
