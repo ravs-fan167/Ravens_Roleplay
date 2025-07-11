@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -89,9 +88,9 @@
           waktu: new Date().toLocaleString()
         };
 
-        const pendaftaran = JSON.parse(sessionStorage.getItem("pendaftaranEvent") || "[]");
+        const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
         pendaftaran.push(data);
-        sessionStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
+        localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
 
         hasil.innerHTML = `
           <strong>Pendaftaran Berhasil!</strong><br>
