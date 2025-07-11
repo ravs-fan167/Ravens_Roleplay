@@ -81,33 +81,26 @@
         const imageData = reader.result;
 
         const data = {
-          Nama: nama,
-          WhatsApp: whatsapp,
-          NamaIC: namaIC,
-          UmurIC: umurIC,
-          EventName: eventName,
-          StatImage: imageData,
-          Waktu: new Date().toLocaleString(),
-          Status: "pending"
+          nama,
+          whatsapp,
+          namaIC,
+          umurIC,
+          eventName,
+          statImage: imageData,
+          waktu: new Date().toLocaleString(),
+          status: "pending" // status awal pendaftaran
         };
 
-        fetch(SHEET_API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        })
-        .then(res => res.json())
-        .then(res => {
-          hasil.innerHTML = `
-            <strong>Pendaftaran Berhasil!</strong><br>
-            Terima kasih, <b>${nama}</b>. Data kamu telah kami simpan.
-          `;
-          hasil.classList.remove("hidden");
-          form.reset();
-        })
-        .catch(() => {
-          alert("Gagal mendaftar. Silakan coba lagi.");
-        });
+        const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+        pendaftaran.push(data);
+        localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
+
+        hasil.innerHTML = `
+          <strong>Pendaftaran Berhasil!</strong><br>
+          Terima kasih, <b>${nama}</b>. Data kamu telah kami simpan.
+        `;
+        hasil.classList.remove("hidden");
+        form.reset();
       };
       reader.readAsDataURL(statImageInput.files[0]);
     });
