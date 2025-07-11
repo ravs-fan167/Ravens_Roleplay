@@ -12,14 +12,12 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
     .rainbow-text {
       background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: rainbow 5s infinite linear;
     }
-
     @keyframes rainbow {
       0% { background-position: 0% }
       100% { background-position: 100% }
@@ -27,7 +25,6 @@
   </style>
 </head>
 <body class="bg-opacity-80 bg-gray-900 font-sans min-h-screen flex items-center justify-center">
-
   <div class="max-w-xl w-full bg-white bg-opacity-95 p-6 rounded shadow-md">
     <h1 class="text-2xl font-bold text-center rainbow-text mb-4">Pendaftaran Event Ravens Roleplay</h1>
     <form id="eventForm" class="space-y-4">
@@ -84,8 +81,14 @@
         const imageData = reader.result;
 
         const data = {
-          nama, whatsapp, namaIC, umurIC, eventName, statImage: imageData,
-          waktu: new Date().toLocaleString()
+          nama,
+          whatsapp,
+          namaIC,
+          umurIC,
+          eventName,
+          statImage: imageData,
+          waktu: new Date().toLocaleString(),
+          status: "pending" // status awal pendaftaran
         };
 
         const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
