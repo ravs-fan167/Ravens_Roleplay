@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Pendaftar Event Ravens Roleplay (Admin)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold text-blue-600 mb-4">Data Pendaftar Event Ravens Roleplay (Admin)</h1>
+    <div id="dataPendaftar" class="overflow-x-auto"></div>
+  </div>
+
+<script>
+  function getPendaftaran() {
+    return JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
+  }
+
+  function simpanPendaftaran(data) {
+    localStorage.setItem("pendaftaranEvent", JSON.stringify(data));
+  }
+
+  function updateStatus(index, newStatus) {
+    const data = getPendaftaran();
+    data[index].status = newStatus;
+    simpanPendaftaran(data);
+    tampilkanData();
+  }
+
+  function tampilkanData() {
+    const pendaftaran = getPendaftaran();
+    const container = document.getElementById("dataPendaftar");
+
+    if (pendaftaran.length === 0) {
+      container.innerHTML = "<p class='text-gray-500'>Belum ada pendaftar.</p>";
+      return;
+    }
+
+    let html = `
+      <table class="min-w-full text-sm text-left border border-gray-300">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 border">No</th>
+            <th class="p-2 border">Nama</th>
+            <th class="p-2 border">WhatsApp</th>
+            <th class="p-2 border">Nama IC</th>
+            <th class="p-2 border">Umur IC</th>
+            <th class="p-2 border">Nama Event</th>
+            <th class="p-2 border">Foto Stats</th>
+            <th class="p-2 border">Waktu</th>
+            <th class="p-2 border">Status</th>
+            <th class="p-2 border">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    pendaftaran.forEach((data, index) => {
+      let statusColor = "bg-yellow-200 text-yellow-800";
+      if (data.status === "accepted") statusColor = "bg-green-200 text-green-800";
+      else if (data.status === "denied") statusColor = "bg-red-200 text-red-800";
+
+      html += `
+        <tr class="border-t">
+          <td class="p-2 border">${index + 1}</td>
+          <td class="p-2 border">${data.nama}</td>
+          <td class="p-2 border">${data.whatsapp}</td>
+          <td class="p-2 border">${data.namaIC}</td>
+          <td class="p-2 border">${data.umurIC}</td>
+          <td class="p-2 border">${data.eventName}</td>
+          <td class="p-2 border">
+            <img src="${data.statImage}" alt="Stats IC" class="w-24 h-auto rounded border hover:opacity-75 transition cursor-pointer" onclick="bukaGambar('${data.statImage}')">
+          </td>
+          <td class="p-2 border">${data.waktu || "-"}</td>
+          <td class="p-2 border"><span class="px-2 py-1 rounded ${statusColor}">${data.status || "pending"}</span></td>
+          <td class="p-2 border">
+            <div class="flex gap-2 flex-wrap">
+              ${data.status === "pending" ?
+                `<button onclick="updateStatus(${index}, 'accepted')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Accept</button>
+                 <button onclick="updateStatus(${index}, 'denied')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Denied</button>`
+                 : ""}
+              <button onclick="hapusPendaftar(${index})" class="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-700">Hapus</button>
+            </div>
+          </td>
+        </tr>`;
+    });
+
+    html += "</tbody></table>";
+    container.innerHTML = html;
+  }
+
+  function hapusPendaftar(index) {
+    if (confirm("Yakin ingin menghapus pendaftar ini?")) {
+      const data = getPendaftaran();
+      data.splice(index, 1); // hapus data ke-i
+      simpanPendaftaran(data);
+      tampilkanData();
+    }
+  }
+
+  function bukaGambar(base64img) {
+    const win = window.open();
+    win.document.write('<img src="' + base64img + '" style="max-width:100%; height:auto;">');
+  }
+
+  tampilkanData();
+</script>
+</body>
+</html>
