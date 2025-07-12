@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendaftaran Event Ravens Roleplay</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #222; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+  <h1>Formulir Pendaftaran Event</h1>
+  <form id="eventForm" style="display: flex; flex-direction: column; gap: 10px; width: 300px;">
+    <input type="text" name="nama" placeholder="Nama Anda" required />
+    <input type="text" name="umur" placeholder="Umur" required />
+    <input type="text" name="idDiscord" placeholder="ID Discord Anda" required />
+    <button type="submit" style="padding: 10px; background: #00aa00; color: white; border: none;">Daftar</button>
+  </form>
+
+  <script>
+    document.getElementById("eventForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      await fetch("http://localhost:3000/daftar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      alert("Pendaftaran berhasil! Cek channel Discord untuk konfirmasi.");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
