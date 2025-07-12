@@ -5,63 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pendaftaran Event Ravens Roleplay</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background-image: url('background.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    .rainbow-text {
-      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbow 5s infinite linear;
-    }
-    @keyframes rainbow {
-      0% { background-position: 0% }
-      100% { background-position: 100% }
-    }
-  </style>
 </head>
-<body class="bg-opacity-80 bg-gray-900 font-sans min-h-screen flex items-center justify-center">
-  <div class="max-w-xl w-full bg-white bg-opacity-95 p-6 rounded shadow-md">
-    <h1 class="text-2xl font-bold text-center rainbow-text mb-4">Pendaftaran Event Ravens Roleplay</h1>
+<body class="bg-gray-100 font-sans min-h-screen flex items-center justify-center">
+  <div class="max-w-xl w-full bg-white p-6 rounded shadow-md">
+    <h1 class="text-2xl font-bold text-center text-blue-700 mb-4">Pendaftaran Event Ravens Roleplay</h1>
     <form id="eventForm" class="space-y-4">
-      <div>
-        <label class="block font-semibold">Nama Lengkap</label>
-        <input type="text" id="nama" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Brianqaaa">
+      <div><label class="block font-semibold">Nama Lengkap</label>
+        <input type="text" id="nama" required class="w-full border px-3 py-2 rounded">
       </div>
-      <div>
-        <label class="block font-semibold">Nomor WhatsApp</label>
-        <input type="tel" id="whatsapp" required class="w-full border px-3 py-2 rounded" placeholder="08xxxxxxxxxx">
+      <div><label class="block font-semibold">Nomor WhatsApp</label>
+        <input type="tel" id="whatsapp" required class="w-full border px-3 py-2 rounded">
       </div>
-      <div>
-        <label class="block font-semibold">Nama IC</label>
-        <input type="text" id="namaIC" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Kleren_McDeren">
+      <div><label class="block font-semibold">Nama IC</label>
+        <input type="text" id="namaIC" required class="w-full border px-3 py-2 rounded">
       </div>
-      <div>
-        <label class="block font-semibold">Umur IC</label>
-        <input type="number" id="umurIC" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: 21">
+      <div><label class="block font-semibold">Umur IC</label>
+        <input type="number" id="umurIC" required class="w-full border px-3 py-2 rounded">
       </div>
-      <div>
-        <label class="block font-semibold">Nama Event</label>
-        <input type="text" id="eventName" required class="w-full border px-3 py-2 rounded" placeholder="Contoh: Balap Motor">
+      <div><label class="block font-semibold">Nama Event</label>
+        <input type="text" id="eventName" required class="w-full border px-3 py-2 rounded">
       </div>
-      <div>
-        <label class="block font-semibold">Upload Foto Stats IC</label>
+      <div><label class="block font-semibold">Upload Foto Stats IC</label>
         <input type="file" id="statImage" accept="image/*" required class="w-full border px-3 py-2 rounded bg-white">
       </div>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Daftar Sekarang</button>
     </form>
     <div id="hasil" class="mt-6 hidden bg-green-100 text-green-800 p-4 rounded"></div>
   </div>
-
   <script>
     const form = document.getElementById("eventForm");
     const hasil = document.getElementById("hasil");
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const nama = document.getElementById("nama").value.trim();
@@ -77,28 +52,17 @@
       }
 
       const reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = async function () {
         const imageData = reader.result;
 
-        const data = {
-          nama,
-          whatsapp,
-          namaIC,
-          umurIC,
-          eventName,
-          statImage: imageData,
-          waktu: new Date().toLocaleString(),
-          status: "pending" // status awal pendaftaran
-        };
+        const response = await fetch("submit.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nama, whatsapp, namaIC, umurIC, eventName, statImage: imageData })
+        });
 
-        const pendaftaran = JSON.parse(localStorage.getItem("pendaftaranEvent") || "[]");
-        pendaftaran.push(data);
-        localStorage.setItem("pendaftaranEvent", JSON.stringify(pendaftaran));
-
-        hasil.innerHTML = `
-          <strong>Pendaftaran Berhasil!</strong><br>
-          Terima kasih, <b>${nama}</b>. Data kamu telah kami simpan.
-        `;
+        const result = await response.text();
+        hasil.innerHTML = "<strong>Pendaftaran Berhasil!</strong><br>Data telah dikirim.";
         hasil.classList.remove("hidden");
         form.reset();
       };
