@@ -10,8 +10,8 @@ app.use(express.json());
 
 // Bot Discord
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
-const TOKEN = 'ISI_TOKEN_BOT_DISCORD_KAMU';
-const CHANNEL_ID = 'ISI_ID_CHANNEL_DISCORD_KAMU';
+const TOKEN = 'MTM5MzU4MDA1MDQ3Mjc2MzUxMw.GdDkuO.ctgLSwlNk-Rz2QvJMy5KPnG_be1JS6S3Kx5Xwk';
+const CHANNEL_ID = '1393578579907969044';
 
 client.once('ready', () => {
   console.log(`Bot siap sebagai ${client.user.tag}`);
